@@ -1,0 +1,19 @@
+{
+  "name": "x-cell",
+  "version": "1.0.0",
+  "description": "world's smallest spreadsheet app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amoschen614/x-cell.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/amoschen614/x-cell/issues"
+  },
+  "homepage": "https://github.com/amoschen614/x-cell#readme"
+}
