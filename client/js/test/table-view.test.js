@@ -8,6 +8,31 @@ describe('table-view', () => {
 		const html = fs.readFileSync(fixturePath, 'utf8');
 		document.documentElement.innerHTML = html;
 	});
+	describe('formula bar', () => {
+		it('updates value of bar from value of current cell', () => {
+			const model = new TableModel(3, 3);
+			const view = new TableView(model);
+			model.setValue({ col: 2, row: 1 }, '123');
+			view.init();
+			const formulaBarEl = document.querySelector('#formula-bar');
+			expect(formulaBarEl.value).toBe('');
+			const trs = document.querySelectorAll('TBODY TR');
+			trs[1].cells[2].click();
+			expect(formulaBarEl.value).toBe('123');
+		});
+		it('updates value of currently selected cell from formula bar', () => {
+			const model = new TableModel(3, 3);
+			const view = new TableView(model);
+			view.init();
+			let trs = document.querySelectorAll('TBODY TR');
+			let td = trs[0].cells[0];
+			expect(td.textContent).toBe('');
+			document.querySelector('#formula-bar').value = '123';
+			view.handleFormulaBarChange();
+			trs = document.querySelectorAll('TBODY TR');
+			expect(trs[0].cells[0].textContent).toBe('123');
+		});
+	});
 	describe('table body', () => {
 		it('highlights the current cell when clicked', () => {
 			const model = new TableModel(10, 5);
