@@ -15,6 +15,9 @@ class TableView {
 		this.headerRowEl = document.querySelector('THEAD TR');
 		this.sheetBodyEl = document.querySelector('TBODY');
 		this.formulaBarEl = document.querySelector('#formula-bar');
+		this.footerRowEl = document.querySelector('TFOOT TR');
+		this.sumRowEl = document.querySelector('TBODY TR');
+
 	}
 
 	initCurrentCell() {
@@ -23,26 +26,43 @@ class TableView {
 	}
 
 	normalizeValueForRendering(value) {
-		return value || ''; //returns empty string if argument is undefined
+		return value || '';
 	}
 
 	renderFormulaBar() {
 		const currentCellValue = this.model.getValue(this.currentCellLocation);
 		this.formulaBarEl.value = this.normalizeValueForRendering(currentCellValue);
-		this.formulaBarEl.focus(); //defaults selected element
+		this.formulaBarEl.focus();
 	}
 
 	renderTable() {
 		this.renderTableHeader();
 		this.renderTableBody();
+		this.renderTableFooter();
 	}
+
 	renderTableHeader() {
 		removeChildren(this.headerRowEl);
 		getLetterRange('A', this.model.numCols).map(colLabel => createTH(colLabel)).forEach(th => this.headerRowEl.appendChild(th));
 	}
 
-	isCurrentCell(col, row) {
-		return this.currentCellLocation.col === col && this.currentCellLocation.row === row;
+	renderTableFooter() {
+		removeChildren(this.footerRowEl);
+		for (let col = 0; col < this.model.numCols; col++) {
+			let colSum = '';
+			for (let row = 0; row < this.model.numRows; row++) {
+				const position = {col: col, row: row};
+				const value = this.model.getValue(position);
+				if (Number.isInteger(Number(value))) {
+					if (colSum.length > 0) {
+						colSum = '' + (Number(colSum) + Number(value));
+					} else {
+						colSum = value;
+					}
+				}
+			}
+			this.footerRowEl.appendChild(createTD(colSum));
+		}
 	}
 
 	renderTableBody() {
@@ -64,29 +84,28 @@ class TableView {
 		this.sheetBodyEl.appendChild(fragment);
 	}
 
+	isCurrentCell(col, row) {
+		return this.currentCellLocation.col === col && this.currentCellLocation.row === row;
+	}
+
 	attachEventHandlers() {
 		this.sheetBodyEl.addEventListener('click', this.handleSheetClick.bind(this));
 		this.formulaBarEl.addEventListener('keyup', this.handleFormulaBarChange.bind(this));
 	}
-/*
-	isColumnHeaderRow(row) {
-		return row < 1; //initially used to prevent redraw if title row were clicked
-	}
-*/ 
+
 	handleFormulaBarChange(evt) {
 		const value = this.formulaBarEl.value;
 		this.model.setValue(this.currentCellLocation, value);
 		this.renderTableBody();
+		this.renderTableFooter();
 	}
 
 	handleSheetClick(evt) {
 		const col = evt.target.cellIndex;
 		const row = evt.target.parentElement.rowIndex - 1;
-
-//		if (!this.isColumnHeaderRow(row)) { initially used to prevent redraw for title row clicks }
 		this.currentCellLocation = { col: col, row: row };
 		this.renderTableBody();
-
+		this.renderTableFooter();
 		this.renderFormulaBar();
 	}
 }

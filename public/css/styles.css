@@ -13,3 +13,17 @@ td {
 .current-cell {
 	background-color: pink;
 }
+
+#sum-row {
+	background-color: green;
+}
+
+tbody th {
+	background-color: green;
+}
+
+tfoot {
+	background-color: lime;
+	text-align: left;
+	font-weight: bold;
+}

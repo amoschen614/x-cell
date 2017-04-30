@@ -3,6 +3,7 @@ class TableModel {
 		this.numCols = numCols;
 		this.numRows = numRows;
 		this.data = {};
+		this.sums = {}; //feature-sum branch, stores { col: j, val: sum } objects
 	}
 
 	_getCellId(location) {
@@ -15,6 +16,14 @@ class TableModel {
 
 	setValue(location, value) {
 		this.data[this._getCellId(location)] = value;
+	}
+
+	getSum(col) {
+		return this.sums[col];
+	}
+
+	setSum(col, sum) {
+		this.sums[col] = sum;
 	}
 }
 
