@@ -16,7 +16,6 @@ class TableView {
 		this.sheetBodyEl = document.querySelector('TBODY');
 		this.formulaBarEl = document.querySelector('#formula-bar');
 		this.footerRowEl = document.querySelector('TFOOT TR');
-		this.sumRowEl = document.querySelector('TBODY TR');
 		this.addRowEl = document.querySelector('#add-row');
 		this.addColEl = document.querySelector('#add-col');
 	}

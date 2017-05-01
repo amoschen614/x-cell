@@ -135,4 +135,60 @@ describe('table-view', () => {
 			expect(view.footerRowEl.textContent).toBe('-1');
 		});
 	});
+	describe('add row button', () => {
+		it('has the right size', () => {
+			const model = new TableModel(4, 4);
+			const view = new TableView(model);
+			view.init();
+			expect(model.numRows).toBe(4);
+			document.querySelector('#add-row').click();
+			expect(model.numRows).toBe(5);		
+		});
+	});
+	describe('add column button', () => {
+		it('has the right size', () => {
+			const model = new TableModel(4, 4);
+			const view = new TableView(model);
+			view.init();
+			expect(model.numCols).toBe(4);
+			document.querySelector('#add-col').click();
+			expect(model.numCols).toBe(5);
+		});
+		it('has valid column header labels', () => {
+			const model = new TableModel(4, 4);
+			const view = new TableView(model);
+			view.init();
+			let ths = document.querySelectorAll('THEAD TH');
+			let labelTexts = Array.from(ths).map(el => el.textContent);
+			expect(labelTexts).toEqual(['A', 'B', 'C', 'D']);
+			document.querySelector('#add-col').click();
+			ths = document.querySelectorAll('THEAD TH');
+			labelTexts = Array.from(ths).map(el => el.textContent);
+			expect(labelTexts).toEqual(['A', 'B', 'C', 'D', 'E']);
+		});
+		it('has valid sum row labels', () => {
+			const model = new TableModel(4, 4);
+			const view = new TableView(model);
+			view.init();
+			for (let r = 0; r < model.numRows; r++) {
+				view.currentCellLocation = { col: 0, row: r };
+				document.querySelector('#formula-bar').value = '' + (r + 1);
+				view.handleFormulaBarChange();
+			}
+			let sums = document.querySelector('TFOOT TR');
+			let labelTexts = [];
+			for (let i = 0; i < model.numCols; i++) {
+				labelTexts.push(sums.childNodes[i].textContent);
+			}
+			expect(labelTexts).toEqual(['10', '', '', '']);
+			document.querySelector('#add-col').click();
+			view.renderTableFooter();
+			sums = document.querySelector('TFOOT TR');
+			labelTexts = [];
+			for (let i = 0; i < model.numCols; i++) {
+				labelTexts.push(sums.childNodes[i].textContent);
+			}
+			expect(labelTexts).toEqual(['10', '', '', '', '']);
+		});
+	});
 });
