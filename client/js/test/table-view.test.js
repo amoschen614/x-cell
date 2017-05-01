@@ -77,4 +77,62 @@ describe('table-view', () => {
 			expect(labelTexts).toEqual(['A', 'B', 'C', 'D', 'E', 'F']);
 		});
 	});
+	describe('sum row', () => {
+		it('sums positive integers', () => {
+			const model = new TableModel(5, 5);
+			const view = new TableView(model);
+			view.init();
+			expect(view.footerRowEl.textContent).toBe('');
+			for (let r = 0; r < model.numRows; r++) {
+				view.currentCellLocation = { col: 0, row: r };
+				document.querySelector('#formula-bar').value = '' + (r + 1);
+				view.handleFormulaBarChange();
+			}
+			expect(view.footerRowEl.textContent).toBe('15');
+		});
+		it('sums negative integers', () => {
+			const model = new TableModel(5, 5);
+			const view = new TableView(model);
+			view.init();
+			expect(view.footerRowEl.textContent).toBe('');
+			for (let r = 0; r < model.numRows; r++) {
+				view.currentCellLocation = { col: 0, row: r };
+				document.querySelector('#formula-bar').value = '' + (-r - 1);
+				view.handleFormulaBarChange();
+			}
+			expect(view.footerRowEl.textContent).toBe('-15');
+		});
+		it('records sum of zero if only cell entry is 0', () => {
+			const model = new TableModel(1, 3);
+			const view = new TableView(model);
+			view.init();
+			expect(view.footerRowEl.textContent).toBe('');
+			view.currentCellLocation = { col: 0, row: 1 };
+			document.querySelector('#formula-bar').value = '' + 0;
+			view.handleFormulaBarChange();
+			expect(view.footerRowEl.textContent).toBe('0');
+		});
+		it('skips non-numeric entries and blank cells', () => {
+			const model = new TableModel(1, 5);
+			const view = new TableView(model);
+			view.init();
+			expect(view.footerRowEl.textContent).toBe('');
+			view.currentCellLocation = { col: 0, row: 0 };
+			document.querySelector('#formula-bar').value = '1.5';
+			view.handleFormulaBarChange();
+			view.currentCellLocation = { col: 0, row: 1 };
+			document.querySelector('#formula-bar').value = 'str';
+			view.handleFormulaBarChange();
+			view.currentCellLocation = { col: 0, row: 2 };
+			document.querySelector('#formula-bar').value = '-1';
+			view.handleFormulaBarChange();
+			view.currentCellLocation = { col: 0, row: 3 };
+			document.querySelector('#formula-bar').value = '';
+			view.handleFormulaBarChange();
+			view.currentCellLocation = { col: 0, row: 4 };
+			document.querySelector('#formula-bar').value = 'true';
+			view.handleFormulaBarChange();
+			expect(view.footerRowEl.textContent).toBe('-1');
+		});
+	});
 });
