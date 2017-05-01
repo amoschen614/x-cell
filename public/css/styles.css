@@ -14,16 +14,33 @@ td {
 	background-color: pink;
 }
 
-#sum-row {
-	background-color: green;
-}
-
-tbody th {
-	background-color: green;
-}
-
 tfoot {
 	background-color: lime;
 	text-align: left;
 	font-weight: bold;
+}
+
+button {
+	width: 100px;
+}
+
+button:hover {
+	background-color: grey;
+	color: white;
+}
+
+button:active {
+	background-color: blue;
+}
+
+span {
+	display: inline-block;
+	margin-left: 20px;
+}
+span.block {
+	display: block;
+}
+
+a:hover {
+	background-color: grey;
 }
