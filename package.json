@@ -27,11 +27,7 @@
     "jest": "^19.0.2",
     "watchify": "^3.9.0"
   },
-<<<<<<< HEAD
-  "engines": {
-=======
   "engines": {  
->>>>>>> 60ff8d32ab05cdd24e5f0a0be99e6d0041da1cf3
     "node": "6.10.2"
   }
 }

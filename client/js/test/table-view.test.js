@@ -108,7 +108,7 @@ describe('table-view', () => {
       view.init();
       expect(view.footerRowEl.textContent).toBe('');
       view.currentCellLocation = { col: 0, row: 1 };
-      document.querySelector('#formula-bar').value = '' + 0;
+      document.querySelector('#formula-bar').value = '0';
       view.handleFormulaBarChange();
       expect(view.footerRowEl.textContent).toBe('0');
     });

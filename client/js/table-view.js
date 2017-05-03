@@ -54,9 +54,9 @@ class TableView {
         colVals.push(Number(this.model.getValue({ col: col, row: row })));
       }
       colVals = colVals.filter(el => Number.isInteger(Number(el)));
-      let label = ''
+      let label = '';
       if (colVals.length > 0) {
-        label = colVals.reduce((sum, val) => sum + val);
+        label = String(colVals.reduce((sum, val) => sum + val, 0));
       }
       this.footerRowEl.appendChild(createTD(label));
     }
