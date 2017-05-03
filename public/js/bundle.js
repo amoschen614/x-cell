@@ -71,6 +71,10 @@ class TableModel {
     this.data[this._getCellId(location)] = value;
   }
 
+  removeValue(location) {
+    delete this.data[this._getCellId(location)];
+  }
+
   addRow() {
     this.numRows++;
   }
@@ -141,7 +145,6 @@ class TableView {
       let label = '';
       if (colVals.length > 0) {
         label = String(colVals.reduce((sum, val) => sum + val, 0));
-        console.log(label);
       }
       this.footerRowEl.appendChild(createTD(label));
     }
@@ -179,9 +182,13 @@ class TableView {
 
   handleFormulaBarChange(evt) {
     const value = this.formulaBarEl.value;
-    this.model.setValue(this.currentCellLocation, value);
-    this.renderTableBody();
-    this.renderTableFooter();
+    if (value === '' && this.model.getValue(this.currentCellLocation) !== undefined) {
+      this.model.removeValue(this.currentCellLocation);
+    } else {
+      this.model.setValue(this.currentCellLocation, value);
+      this.renderTableBody();
+      this.renderTableFooter();
+    }
   }
 
   handleSheetClick(evt) {

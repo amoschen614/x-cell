@@ -17,6 +17,10 @@ class TableModel {
     this.data[this._getCellId(location)] = value;
   }
 
+  removeValue(location) {
+    delete this.data[this._getCellId(location)];
+  }
+
   addRow() {
     this.numRows++;
   }
