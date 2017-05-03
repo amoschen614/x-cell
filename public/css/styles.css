@@ -1,15 +1,46 @@
 table {
-    border-collapse: collapse;
+  border-collapse: collapse;
 }
 
 th,
 td {
-    border: 1px solid black;
-    min-width: 100px;
-    height: 25px;
-    padding: 3px;
+  border: 1px solid black;
+  min-width: 100px;
+  height: 25px;
+  padding: 3px;
 }
 
 .current-cell {
-	background-color: pink;
+  background-color: pink;
+}
+
+tfoot {
+  background-color: lime;
+  text-align: left;
+  font-weight: bold;
+}
+
+button {
+  width: 100px;
+}
+
+button:hover {
+  background-color: grey;
+  color: white;
+}
+
+button:active {
+  background-color: blue;
+}
+
+span {
+  display: inline-block;
+  margin-left: 20px;
+}
+span.block {
+  display: block;
+}
+
+a:hover {
+  background-color: grey;
 }

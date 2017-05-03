@@ -8,7 +8,7 @@
     "watch": "watchify client/js/app.js -o public/js/bundle.js",
     "test": "jest",
     "start": "node ./index.js"
-   },
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/amoschen614/x-cell.git"
